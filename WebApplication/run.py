@@ -1,13 +1,10 @@
 import os
 import cv2
 import dlib
-import string
-import random
 import shutil
 import numpy as np
 import urllib.parse
 import face_clipper
-from datetime import datetime
 from scipy.misc import face
 from DummyGAN import run_dummy
 from mask2white import mask2white
@@ -75,12 +72,13 @@ def index():
         # 入力画像の保存先を生成
         os.mkdir(GANIN_DIR)
     
+    # GAN出力画像の保存先を削除
     if os.path.exists(GANOUT_DIR):
         shutil.rmtree(GANOUT_DIR)
 
     return render_template('index.html')
 
-# 変換中のページ(ロード画面を作成しても良さそう)
+# 画像変換処理 ページ
 @app.route('/upload', methods=['POST'])
 def upload():
     # 警告フォーム化する
@@ -88,7 +86,8 @@ def upload():
         # ファイルが選択されていない場合
         print('ファイルが選択されていません')
         return redirect('/')
-
+    
+    # imageファイルのリクエストが存在する場合
     if request.files['image']:
         # 画像として読み込み
         stream = request.files['image'].stream
@@ -98,7 +97,7 @@ def upload():
         # 入力された画像を入力の指定先フォルダへ保存
         cv2.imwrite(f'{INPUT_DIR}/input.png', img)
 
-        # 顔の切り抜き(返り値：背景画像， 切り抜いた顔画像, 切り抜いた画像の座標)
+        # 顔の切り抜き(返り値：背景画像, 切り抜いた顔画像, 切り抜いた画像の座標)
         back_img, face_list, cornar_list = face_clipper.get_face(INPUT_DIR + '/input.png', detector)
             
         # フェイスマスクの白色化処理（事前処理）
@@ -110,7 +109,9 @@ def upload():
         # CycleGANで変換した画像の取得
         face_clipper.insert_translated_face(back_img, cornar_list, GANOUT_DIR, OUTPUT_DIR)
 
-    return render_template('result.html', Path = file_name('./templates/images'))
+        return render_template('result.html', Path = file_name('./templates/images'))
+    else:
+        return render_template('index.html')
 
 # 変換結果 ページ
 @app.route('/result', methods=['POST'])

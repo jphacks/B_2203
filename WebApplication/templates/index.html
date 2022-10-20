@@ -28,18 +28,32 @@
     <h2>入力画像</h2><br>
     <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width: 300px;">
     <form action="/upload" method="post" enctype="multipart/form-data">
-      <input type="file" class="btn message" name="image" accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this)">
-      <button type="submit" class="btn message">変換</button>
+    <input type="file" class="btn message" name="image" accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this)">
+    <button type="submit" class="btn message" onclick="fileAlert()">変換</button>
     </form>
     <script>
-    function previewImage(obj)
-    {
-      var fileReader = new FileReader();
-      fileReader.onload = (function() {
-        document.getElementById('preview').src = fileReader.result;
-      });
-      fileReader.readAsDataURL(obj.files[0]);
-    }
+      // imageファイルが選択されているかを判定
+      FILE_BOOL = false;
+      // 選択した画像を画面に表示
+      function previewImage(obj)
+      {
+        var fileReader = new FileReader();
+        fileReader.onload = (function() {
+          document.getElementById('preview').src = fileReader.result;
+        });
+        fileReader.readAsDataURL(obj.files[0]);
+        FILE_BOOL = true;
+      }
+
+      // 選択してない場合の処理
+      function fileAlert()
+      {
+        if (FILE_BOOL == false)
+        {
+          alert('画像が選択されていません');
+        }
+      }
+
     </script>
   </div>
 </div>

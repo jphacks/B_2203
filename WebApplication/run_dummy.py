@@ -6,7 +6,7 @@ import shutil
 import numpy as np
 from datetime import datetime
 from DummyGAN import run_dummy
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory
 
 # 出力画像の保存先
 OUTPUT_DIR = "./templates/images"
@@ -83,12 +83,6 @@ def index():
 # 変換中のページ(ロード画面を作成しても良さそう)
 @app.route('/upload', methods=['POST'])
 def upload():
-    # 警告フォーム化する
-    if 'image' not in request.files:
-        # ファイルが選択されていない場合
-        print('ファイルが選択されていません')
-        return redirect('/')
-
     if request.files['image']:
         # 画像として読み込み
         stream = request.files['image'].stream
@@ -109,9 +103,10 @@ def upload():
         dt_now = datetime.now().strftime("%Y_%m_%d_%H_%M_%S") + random_str(5)
         save_path = os.path.join(OUTPUT_DIR, dt_now + ".png")
         cv2.imwrite(save_path, img)
-
-        #print("save", save_path)
-    return render_template('result.html', Path = file_name('./templates/images'))
+    
+        return render_template('result.html', Path = file_name('./templates/images'))
+    else:
+        return render_template('index.html')
 
 # 変換結果 ページ
 @app.route('/result', methods=['POST'])
