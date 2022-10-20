@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<header>
+  <div class="container">
+    <div class="header-left">
+      <h1 class="logo">SUGAO</h1>
+    </div>
+    <span class="fa fa-bars menu-icon"></span>
+    <div class="header-right">
+      <a href="/">Home</a>
+      <a href="manual">使い方</a>
+    </div>
+  </div>
+</header>
+<div class="top-wrapper">
+  <div class="container">
+    <h1><span>SUGAO</span></h1>
+    <h2><span>S</span>aving <span>U</span>nmasking face <span>G</span>enerated by <span>A</span>I <span>O</span>peration</h2>
+    <p>SUGAOは写真中の人のマスクを外すことのできるアプリです。</p>
+    <p>誰でもその場で簡単に写真を変換して保存することができます。</p>
+  </div>
+</div>
+<div class="fig-wrapper">
+  <div class="container">
+    <div class="heading">
+      <h2>さっそく使ってみましょう!</h2>
+    </div>
+    <h2>入力画像</h2><br>
+    <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width: 300px;">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" class="btn message" name="image" accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this)">
+      <button type="submit" class="btn message">変換</button>
+    </form>
+    <script>
+    function previewImage(obj)
+    {
+      var fileReader = new FileReader();
+      fileReader.onload = (function() {
+        document.getElementById('preview').src = fileReader.result;
+      });
+      fileReader.readAsDataURL(obj.files[0]);
+    }
+    </script>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <p>Let's make memories!</p>
+  </div>
+</footer>
+{% endblock %}

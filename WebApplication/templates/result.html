@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+<header>
+  <div class="container">
+    <div class="header-left">
+      <h1 class="logo">SUGAO</h1>
+    </div>
+    <span class="fa fa-bars menu-icon"></span>
+    <div class="header-right">
+      <a href="/">Home</a>
+      <a href="manual">使い方</a>
+    </div>
+  </div>
+</header>
+<div class="top-wrapper">
+  <div class="container">
+    <div style="text-align: center;">
+
+      <h3>出力画像</h3><br>
+    
+      <img src="templates/images/{{ Path }}" style="margin-top: 10px; vertical-align: bottom; width: 300px;">
+    
+    </div>
+  </div>
+</div>
+<div class="fig-wrapper">
+  <div class="container">
+    <div style="text-align: center;">
+      <a onclick="downloadImg('{{ Path }}')" id="download" class="btn btn-info">
+        <button type="button" class="btn message">画像をダウンロード</button>
+      </a>
+      <form action="/" method="get" enctype="multipart/form-data">
+        <button type="submit" class="btn message">Homeへ戻る</button>
+      </form>
+    </div>
+    
+    <script>
+      function downloadImg (Path) {
+          const fileName = Path;
+          const uri = '/templates/images/' + Path;
+    
+          // IEはdownload属性が効かないので分岐
+          if (window.navigator.msSaveOrOpenBlob) {
+              let xhr = new XMLHttpRequest();
+              xhr.open('GET', uri);
+              xhr.responseType = 'blob';
+              xhr.onloadend = () => {
+                  if (xhr.status !== 200) {
+                      return false;
+                  }
+                  window.navigator.msSaveOrOpenBlob(xhr.response, fileName);
+              };
+              xhr.send();
+          } else {
+              let link = document.getElementById('download');
+              link.href = uri;
+              link.download = fileName;
+          }
+      }
+    </script>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <p>Let's make memories!</p>
+  </div>
+</footer>
+{% endblock %}

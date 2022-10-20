@@ -1,0 +1,26 @@
+1. 環境の作成
+pip install -r requirements.txt
+pip install pytorch....
+
+2. 実行
+python train.py --dataroot human2robo(データを置いているファイル)
+※python train.pyのみ実行で，引数の確認ができます．
+
+3.テスト時
+python test.py --dataroot test_img --name mask2nonmask_results --model test --model_suffix _A 
+--num_test 500 --no_dropout(モデルを指定するときは--epoch 数)
+
+4.環境構築
+pytorchのインストール（ https://pytorch.org/）
+今回は以下の設定のもとインストール
+　§ Pytorch Build: Stable(1.11.0)
+　§ Your OS: Windows
+　§ Package: Conda
+　§ Language: Python
+　§ Compute Platform: CUDA 11.3
+　§ Run this Command: conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+
+
+
+cudaとcuDNNのインストール方法(pytorchに対応したバージョンをインストール)
+ https://qiita.com/TrashBoxx/items/2e884998cd1193f73e2f
