@@ -9,18 +9,16 @@ from datetime import datetime
 
 from scipy.misc import face
 from DummyGAN import run_dummy
-from mask2white import synthesize_img
+from mask2white import mask2white
 import face_clipper
 import dlib
-from pathlib import Path  # 要インストール
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 
 # 出力画像の保存先
 OUTPUT_DIR = "./templates/images"
 
+# 入力画像の保存先
 INPUT_DIR = "./input_image"
-
-CLIPPED_FACE_DIR = "./clipped_face"
 
 # CycleGAN側で指定している入力画像のフォルダ
 GANIN_DIR = "./CycleGAN/test_img"
@@ -34,10 +32,7 @@ DMGANOUT_DIR = "./DummyGAN/result"
 # デバックモード切り替え
 DEBUG_MODE = False
 
-# 暫定的な画像のID
-fid = 0000
-
-# dlibをはじめる
+# dlib(顔検出)のインスタンス変数
 detector = dlib.get_frontal_face_detector()
 
 # Flask 定義
@@ -84,13 +79,6 @@ def index():
         # 入力画像の保存先を生成
         os.mkdir(INPUT_DIR)
     
-    if not os.path.exists(CLIPPED_FACE_DIR):
-        os.mkdir(CLIPPED_FACE_DIR)
-    else:
-        shutil.rmtree(CLIPPED_FACE_DIR)
-        # 入力画像の保存先を生成
-        os.mkdir(CLIPPED_FACE_DIR)
-    
     if not os.path.exists(GANIN_DIR):
         os.mkdir(GANIN_DIR)
     else: # 前の画像を削除
@@ -119,27 +107,22 @@ def upload():
         img_array = np.asarray(bytearray(stream.read()), dtype=np.uint8)
         img = cv2.imdecode(img_array, 1)
 
-        # 入力された画像をGAN側の指定先フォルダへ保存
+        # 入力された画像を入力の指定先フォルダへ保存
         cv2.imwrite(f'{INPUT_DIR}/input.png', img)
 
         # 実行モードを判定
         if not DEBUG_MODE:
-            # 切り出した背景画像， 顔画像, 切り抜いた画像の座標
-            back_img, face_list, cornar_list = face_clipper.get_face(INPUT_DIR + '/input.png', CLIPPED_FACE_DIR, detector)
+            # 顔の切り抜き(返り値：背景画像， 切り抜いた顔画像, 切り抜いた画像の座標)
+            back_img, face_list, cornar_list = face_clipper.get_face(INPUT_DIR + '/input.png', detector)
             
-            # 
-            synthesize_img(CLIPPED_FACE_DIR, GANIN_DIR)
+            # フェイスマスクの白色化処理（事前処理）
+            mask2white(face_list, GANIN_DIR)
 
             # 外部からGANを実行(CycleGANプログラムの設計者の思想に合わせた)
             run('python ./CycleGAN/mask_delete.py --dataroot ./CycleGAN/test_img --name ./CycleGAN/mask2nonmask_results_succes --model test --model_suffix _A --num_test 500 --no_dropout')
-            translated_img_list = []
-            translated_img_dir = [str(p) for p in Path(GANOUT_DIR).glob("*")]
-            for i in range(len(translated_img_dir)):
-                print(translated_img_dir[i])
-                translated_img = cv2.imread(translated_img_dir[i])
-                translated_img_list.append(translated_img)
-            print(translated_img_list)
-            face_clipper.insert_translated_face(back_img, translated_img_list, cornar_list, OUTPUT_DIR)
+
+            # CycleGANで変換した画像の取得
+            face_clipper.insert_translated_face(back_img, cornar_list, GANOUT_DIR, OUTPUT_DIR)
             
             '''
             # GAN側で指定している出力画像を読み込み
@@ -155,11 +138,11 @@ def upload():
             img = cv2.imread(DMGANOUT_DIR + '/' + filename)
 
         # 出力画像を指定フォルダへ保存
-        dt_now = datetime.now().strftime("%Y_%m_%d_%H_%M_%S") + random_str(5)
-        save_path = os.path.join(OUTPUT_DIR, dt_now + ".png")
-        cv2.imwrite(save_path, img)
+        #dt_now = datetime.now().strftime("%Y_%m_%d_%H_%M_%S") + random_str(5)
+        #save_path = os.path.join(OUTPUT_DIR, dt_now + ".png")
+        #cv2.imwrite(save_path, img)
 
-        print("save", save_path)
+        #print("save", save_path)
     return render_template('result.html', Path = file_name('./templates/images'))
 
 # 変換結果 ページ
