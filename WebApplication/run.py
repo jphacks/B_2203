@@ -121,7 +121,7 @@ def upload():
             # 外部からGANを実行(CycleGANプログラムの設計者の思想に合わせた)
             run('python ./CycleGAN/mask_delete.py --dataroot ./CycleGAN/test_img --name ./CycleGAN/mask2nonmask_results_succes --model test --model_suffix _A --num_test 500 --no_dropout')
 
-            # CycleGANで変換した画像の取得
+            # CycleGANで変換した画像を元の画像に埋め込み
             face_clipper.insert_translated_face(back_img, cornar_list, GANOUT_DIR, OUTPUT_DIR)
             
             '''
