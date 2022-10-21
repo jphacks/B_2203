@@ -74,7 +74,7 @@
   header {
     height: 65px;
     width: 100%;
-    background-color: rgba(133, 220, 238, 0.9);
+    background-color: rgba(133, 220, 238, 0.8);
     position :fixed;
     top: 0;
     z-index: 10;
@@ -113,12 +113,101 @@
     background-color: rgba(255, 255, 255, 0.3);
   }
   
-  .menu-icon {
-    color: white;
-    float: right;
-    font-size: 25px;
-    padding: 21px 0;
+  .hamburger-menu {
     display: none;
+  }
+
+  .menu-btn {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    height: 60px;
+    width: 60px;
+    justify-content: center;
+    align-items: center;
+    z-index: 90;
+    background-color: rgba(133, 220, 238, 0.9);
+  }
+  .menu-btn span,
+  .menu-btn span:before,
+  .menu-btn span:after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 25px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    position: absolute;
+  }
+  .menu-btn span:before {
+      bottom: 8px;
+  }
+  .menu-btn span:after {
+      top: 8px;
+  }
+
+  .menu-content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 100%;
+    z-index: 80;
+    background-color: rgba(133, 220, 238, 0.9);
+    transition: all 0.5s;
+  }
+
+  .menu-content ul {
+    padding: 70px 10px 0;
+  }
+
+  .menu-content ul li {
+    border-bottom: solid 1px #ffffff;
+    list-style: none;
+  }
+  .menu-content ul li a {
+    display: block;
+    width: 100%;
+    font-size: 15px;
+    box-sizing: border-box;
+    color:#ffffff;
+    text-decoration: none;
+    padding: 9px 15px 10px 0;
+    position: relative;
+  }
+  .menu-content ul li a::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-top: solid 2px #ffffff;
+    border-right: solid 2px #ffffff;
+    transform: rotate(45deg);
+    position: absolute;
+    right: 11px;
+    top: 16px;
+  }
+
+  #menu-btn-check {
+    display: none;
+  }
+
+  #menu-btn-check:checked ~ .menu-btn span {
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  #menu-btn-check:checked ~ .menu-btn span::before {
+    bottom: 0;
+    transform: rotate(45deg);
+  }
+
+  #menu-btn-check:checked ~ .menu-btn span::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  #menu-btn-check:checked ~ .menu-content {
+    left: 0;
   }
   
   .heading {

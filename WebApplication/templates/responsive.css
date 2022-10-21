@@ -39,6 +39,12 @@
     
     .top-wrapper {
       text-align: left;
+      padding-top: 80px;
+      padding-bottom: 100px;
+    }
+
+    .hamburger-menu {
+      display: block;
     }
   
     .header-right {
