@@ -10,6 +10,18 @@
     <link rel="stylesheet" href="{{url_for('static', filename='responsive.css')}}">
   </head>
   <body>
+    <header>
+      <div class="container">
+        <div class="header-left">
+          <h1 class="logo">SUGAO</h1>
+        </div>
+        <span class="fa fa-bars menu-icon"></span>
+        <div class="header-right">
+          <a href="/">Home</a>
+          <a href="manual">使い方</a>
+        </div>
+      </div>
+    </header>
     {% block content %}{% endblock %}
   </body>
 </html>
