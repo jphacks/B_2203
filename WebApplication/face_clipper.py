@@ -21,7 +21,7 @@ def get_face(fname, detector):
     flag_resize = True
     if flag_resize:
         img = cv2.resize(img, None,
-            fx = 0.2, fy = 0.2)
+            fx = 0.5, fy = 0.5)
     # 顔検出
     dets = detector(img, 1)
     for k, d in enumerate(dets):
