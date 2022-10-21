@@ -1,6 +1,6 @@
 /* タブレット向けレイアウト */
 @media all and (max-width: 1000px) {
-    .lesson {
+    .manual-content {
       width: 50%;
       margin-bottom: 50px;
     }
@@ -25,7 +25,7 @@
   
   /* スマホ向けレイアウト */
   @media all and (max-width: 670px) {
-    .lesson {
+    .manual-content {
       width: 100%;
     }
   
@@ -51,10 +51,6 @@
       display: none;
     }
 
-    .menu-icon {
-      display: block;
-    }
-    
     .top-wrapper h1 {
       font-size: 30px;
     }

@@ -24,7 +24,7 @@
   
   .top-wrapper {
     padding-top: 100px ;
-    padding-bottom: 200px ;
+    padding-bottom: 100px ;
     background-size: cover;
     background-color: rgba(235, 235, 235, 0.8);
     text-align: center;
@@ -225,13 +225,32 @@
     display: inline-block;
     margin-top: 15px;
     font-size: 13px;
-    color: #b3aeb5;
+    color: #545155;
   }
   
   .fig-wrapper {
     border-bottom: 1px solid #eee;
     padding-bottom: 80px;
     text-align: center;
+  }
+
+  .manual-wrapper {
+    padding-bottom: 80px;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: #f7f7f7;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .manual-contents {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .manual-content {
+    /* float: left; */
+    width: 25%;
   }
   
   .message {
