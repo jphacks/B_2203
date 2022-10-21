@@ -18,7 +18,7 @@ def get_face(fname, detector):
 
     # デジタルカメラなどの画像であれば
     # サイズが大きいのでリサイズ
-    flag_resize = True
+    flag_resize = False
     if flag_resize:
         img = cv2.resize(img, None,
             fx = 0.5, fy = 0.5)
