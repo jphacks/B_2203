@@ -1,1 +1,3 @@
 /WebApplication/CycleGAN/models/dlib-master
+/WebApplication/__pycache__
+*.pyc
