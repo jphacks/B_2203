@@ -38,6 +38,10 @@ def get_face(fname, detector):
         cornar_list[2].append(y1)
         cornar_list[3].append(y2)
 
+    print("-------------------------")
+    print(face_list)
+    print("-------------------------")
+
     return img, face_list, cornar_list
 
 
