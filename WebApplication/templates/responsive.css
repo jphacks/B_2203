@@ -10,7 +10,7 @@
     }
   
     .top-wrapper h1 {
-      font-size: 32px;
+      font-size: 60px;
     }
   
     .heading h2 {
@@ -45,6 +45,10 @@
     }
     
     .top-wrapper h1 {
+      font-size: 30px;
+    }
+
+    .top-wrapper h2 {
       font-size: 24px;
     }
   
