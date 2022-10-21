@@ -1,5 +1,13 @@
+import os
 import cv2, pprint
+import random
+import string
+from datetime import datetime
 from pathlib import Path  # 要インストール
+
+# ランダムに文字列を与える(静的なシステムへの対応)
+def random_str(n):
+    return ''.join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
 
 # 顔画像を取得して保存する
 def get_face(fname, detector):
@@ -49,6 +57,8 @@ def insert_translated_face(img, cornar_list, ganout_dir, outdir):
         """cv2.imshow("img_test", img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()"""
-
-    out = outdir + "/output.jpg"
+    
+    # 出力画像を指定フォルダへ保存
+    dt_now = datetime.now().strftime("%Y_%m_%d_%H_%M_%S") + random_str(5)
+    out = os.path.join(outdir, dt_now + ".png")
     cv2.imwrite(out, img)
