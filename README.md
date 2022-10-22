@@ -18,6 +18,8 @@
 
 私たちの開発したアプリケーションが写真を撮る機会を促進し，皆様の『新たな思い出の 1 ページ！！』となれば幸いです．
 
+### 説明動画
+
 [![](https://img.youtube.com/vi/6yTuQ_ELiDM/0.jpg)](https://www.youtube.com/watch?v=6yTuQ_ELiDM)
 
 ### 製品説明（具体的な製品の説明）
