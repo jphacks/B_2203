@@ -20,7 +20,7 @@
 
 ### 説明動画（YouTubeへのリンク）
 
-[![](/figs/demo_link.svg)](https://www.youtube.com/watch?v=6yTuQ_ELiDM)
+[![](/figs/demo_link.svg)](https://youtu.be/JpdHhGm5G4c)
 
 ### 製品説明（具体的な製品の説明）
 
