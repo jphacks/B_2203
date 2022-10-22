@@ -1,6 +1,6 @@
 # **SUGAO**(**S**aving **U**nmasking face **G**enerated by **A**I **O**peration)
 
-![](/figs/top_image.svg)
+![](/figs/top_image2.svg)
 
 ## 製品概要
 
