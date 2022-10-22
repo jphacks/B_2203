@@ -1,6 +1,7 @@
 # **SUGAO**(**S**aving **U**nmasking face **G**enerated by **A**I **O**peration)
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2022/08/JPHACKS2022_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)
+![top-image](https://user-images.githubusercontent.com/97429973/197311210-ec51fa92-9d43-43c9-8b4e-d1feba8872ab.png)
+
 
 ## 製品概要
 
