@@ -3,9 +3,10 @@ import itertools
 from util.image_pool import ImagePool
 from .base_model import BaseModel
 from . import networks
-import dlib
+import dlib, cv2
+from util.util import tensor2im
 
-detector = detector = dlib.get_frontal_face_detector()
+face_detector = dlib.get_frontal_face_detector()
 
 
 class CycleGANModel(BaseModel):
@@ -41,8 +42,8 @@ class CycleGANModel(BaseModel):
         """
         parser.set_defaults(no_dropout=True)  # default CycleGAN did not use dropout
         if is_train:
-            parser.add_argument('--lambda_A', type=float, default=10, help='weight for cycle loss (A -> B -> A)')
-            parser.add_argument('--lambda_B', type=float, default=10, help='weight for cycle loss (B -> A -> B)')
+            parser.add_argument('--lambda_A', type=float, default=0.5, help='weight for cycle loss (A -> B -> A)')
+            parser.add_argument('--lambda_B', type=float, default=0.5, help='weight for cycle loss (B -> A -> B)')
             parser.add_argument('--lambda_identity', type=float, default=0.5, help='use identity mapping. Setting lambda_identity other than 0 has an effect of scaling the weight of the identity mapping loss. For example, if the weight of the identity loss should be 10 times smaller than the weight of the reconstruction loss, please set lambda_identity = 0.1')
 
         return parser
@@ -119,7 +120,7 @@ class CycleGANModel(BaseModel):
         self.fake_A = self.netG_B(self.real_B)  # G_B(B)
         self.rec_B = self.netG_A(self.fake_A)   # G_A(G_B(B))
 
-    def backward_D_basic(self, netD, real, fake):
+    def backward_D_basic(self, netD, real, fake, D_A_bool=False): # D_A_boolは自分で追加
         """Calculate GAN loss for the discriminator
 
         Parameters:
@@ -136,6 +137,18 @@ class CycleGANModel(BaseModel):
         # Fake
         pred_fake = netD(fake.detach())
         loss_D_fake = self.criterionGAN(pred_fake, False)
+
+        if D_A_bool:  # 自分で追加
+            fake_img = tensor2im(fake.detach())
+            face = face_detector(fake_img, 1)
+
+            if face:
+                loss_D_fake *= 2
+                #print("D_face: True")
+            else:
+                loss_D_fake /= 2
+                #print("D_face: False")
+
         # Combined loss and calculate gradients
         loss_D = (loss_D_real + loss_D_fake) * 0.5
         loss_D.backward()
@@ -144,7 +157,7 @@ class CycleGANModel(BaseModel):
     def backward_D_A(self):
         """Calculate GAN loss for discriminator D_A"""
         fake_B = self.fake_B_pool.query(self.fake_B)
-        self.loss_D_A = self.backward_D_basic(self.netD_A, self.real_B, fake_B)
+        self.loss_D_A = self.backward_D_basic(self.netD_A, self.real_B, fake_B, D_A_bool=True)
 
     def backward_D_B(self):
         """Calculate GAN loss for discriminator D_B"""
@@ -170,6 +183,24 @@ class CycleGANModel(BaseModel):
 
         # GAN loss D_A(G_A(A))
         self.loss_G_A = self.criterionGAN(self.netD_A(self.fake_B), True)
+
+        # ↓ 自分で追加
+
+        fake_img = tensor2im(self.fake_B)
+        face = face_detector(fake_img, 1)
+
+        if face:
+            self.loss_G_A /= 2
+            #print("G_face: True")
+            #cv2.imshow("img_test", fake_img)
+            #cv2.waitKey(0)
+            #cv2.destroyAllWindows()
+        else:
+            self.loss_G_A *= 2
+            #print("G_face: False")
+        
+        # ↑ 自分で追加
+        
         # GAN loss D_B(G_B(B))
         self.loss_G_B = self.criterionGAN(self.netD_B(self.fake_A), True)
         # Forward cycle loss || G_B(G_A(A)) - A||
