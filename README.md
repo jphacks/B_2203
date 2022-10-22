@@ -1,6 +1,6 @@
 # **SUGAO**(**S**aving **U**nmasking face **G**enerated by **A**I **O**peration)
 
-![](https://user-images.githubusercontent.com/97429973/197311210-ec51fa92-9d43-43c9-8b4e-d1feba8872ab.png)
+![](/figs/top_image.svg)
 
 ## 製品概要
 
@@ -18,9 +18,9 @@
 
 私たちの開発したアプリケーションが写真を撮る機会を促進し，皆様の『新たな思い出の 1 ページ！！』となれば幸いです．
 
-### 説明動画
+### 説明動画（YouTubeへのリンク）
 
-[![](https://img.youtube.com/vi/6yTuQ_ELiDM/0.jpg)](https://www.youtube.com/watch?v=6yTuQ_ELiDM)
+[![](/figs/demo_link.svg)](https://www.youtube.com/watch?v=6yTuQ_ELiDM)
 
 ### 製品説明（具体的な製品の説明）
 
