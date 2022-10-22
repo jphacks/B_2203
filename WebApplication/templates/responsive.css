@@ -30,7 +30,7 @@
     }
   
     .btn {
-      width: 100%;
+      width: 90%;
     }
   
     .img-top {
@@ -40,7 +40,7 @@
     .top-wrapper {
       text-align: left;
       padding-top: 80px;
-      padding-bottom: 80px;
+      padding-bottom: 40px;
     }
 
     .hamburger-menu {
